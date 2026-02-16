@@ -1,0 +1,269 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>お申し込みありがとうございます｜SNS Bridge</title>
+
+  <!-- できれば検索に出さない（広告LPの送信完了ページ想定） -->
+  <meta name="robots" content="noindex, nofollow" />
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0b1220;
+      --muted:#5b6475;
+      --accent:#c13584;
+      --accent-rgb: 193, 53, 132;
+      --cta:#833ab4;
+      --cta-rgb: 131, 58, 180;
+      --navy: var(--accent);
+      --navy2: var(--accent);
+      --line: rgba(var(--accent-rgb), .16);
+      --shadow: 0 18px 48px rgba(var(--accent-rgb), .18);
+      --radius2:26px;
+      --container:min(980px, 100%);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      width:100%;
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--ink);
+      overflow-x:hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* 背景（LPと同じ “雰囲気”） */
+    body{
+      position:relative;
+      isolation:isolate;
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+
+      /* ※LPと同じ画像を使うならパスだけ合わせてください */
+      background-image:url("./images/snsbridge-bg@2x.png");
+      background-image: -webkit-image-set(
+        url("./images/snsbridge-bg.webp") type("image/webp") 1x,
+        url("./images/snsbridge-bg@2x.webp") type("image/webp") 2x,
+        url("./images/snsbridge-bg.png") type("image/png") 1x,
+        url("./images/snsbridge-bg@2x.png") type("image/png") 2x
+      );
+      background-image: image-set(
+        url("./images/snsbridge-bg.webp") type("image/webp") 1x,
+        url("./images/snsbridge-bg@2x.webp") type("image/webp") 2x,
+        url("./images/snsbridge-bg.png") type("image/png") 1x,
+        url("./images/snsbridge-bg@2x.png") type("image/png") 2x
+      );
+
+      background-size:cover;
+      background-position:center top;
+      background-repeat:no-repeat;
+      transform: translateZ(0);
+    }
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 28% 10%,
+          rgba(255,255,255,.64),
+          rgba(255,255,255,.86) 60%,
+          rgba(255,255,255,.92)
+        );
+    }
+
+    /* トップバー（簡易） */
+    .topbar{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:64px;
+      z-index:9999;
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar__inner{
+      width: min(1180px, 100%);
+      margin:0 auto;
+      height:100%;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width:0;
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+    .brand__logo{
+      height:60px;
+      width:auto;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(var(--accent-rgb), .18));
+    }
+
+    main{ padding-top:64px; }
+
+    .wrap{
+      width:var(--container);
+      margin:0 auto;
+      padding: 60px 18px;
+    }
+
+    .panel{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background:#fff;
+      box-shadow: var(--shadow);
+      padding: 28px;
+    }
+
+    .title{
+      margin:0 0 10px;
+      font-size: clamp(22px, 3.2vw, 34px);
+      line-height:1.2;
+      letter-spacing:.01em;
+      font-weight:900;
+    }
+
+    .lead{
+      margin:0 0 18px;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:15px;
+    }
+
+    .steps{
+      margin: 16px 0 0;
+      padding: 0;
+      list-style: none;
+      display: grid;
+      gap: 10px;
+    }
+    .step{
+      border:1px solid rgba(var(--accent-rgb), .14);
+      background: rgba(255,255,255,.86);
+      border-radius: 16px;
+      padding: 14px 14px;
+    }
+    .step b{ color: var(--ink); }
+    .step p{
+      margin:6px 0 0;
+      color: var(--muted);
+      line-height:1.75;
+      font-size:14px;
+    }
+
+    .actions{
+      margin-top: 18px;
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      align-items:center;
+    }
+
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px;
+      border-radius:999px;
+      border:0;
+      background:var(--cta);
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      letter-spacing:.02em;
+      box-shadow: 0 16px 40px rgba(var(--cta-rgb), .26);
+      white-space:nowrap;
+      cursor:pointer;
+      text-decoration:none;
+    }
+    .btn:hover{ filter:brightness(1.03); }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn--ghost{
+      background:#fff;
+      color: var(--ink);
+      border:1px solid var(--line);
+      box-shadow: 0 12px 34px rgba(var(--accent-rgb), .10);
+    }
+
+    .note{
+      margin-top: 14px;
+      font-size: 12px;
+      color: var(--muted);
+      line-height:1.7;
+    }
+
+    @media (max-width: 520px){
+      .brand__logo{ height:30px; }
+      .wrap{ padding: 44px 12px; }
+      .panel{ padding: 20px; }
+    }
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" aria-label="サイト名">
+        <img class="brand__logo" src="./images/snsbridge-logo.webp" alt="SNS Bridge" />
+      </div>
+      <div></div>
+    </div>
+  </header>
+
+  <main>
+    <div class="wrap">
+      <div class="panel" role="status" aria-live="polite">
+        <h1 class="title">お申し込みありがとうございます</h1>
+        <p class="lead">
+          送信が完了しました。ご入力いただいたメールアドレス宛に、<b>ウェビナー参加情報（Zoom URL）</b>をお送りします。
+        </p>
+
+        <ul class="steps">
+          <li class="step">
+            <b>① メールをご確認ください</b>
+            <p>通常は数分以内に届きます。届かない場合は、迷惑メールフォルダもご確認ください。</p>
+          </li>
+          <li class="step">
+            <b>② 参加枠の時間になったら Zoom へ</b>
+            <p>メール内の Zoom URL からご参加ください。</p>
+          </li>
+          <li class="step">
+            <b>③ 万一メールが届かない場合</b>
+            <p>入力したメールアドレスが誤っている可能性があります。お手数ですが、もう一度お申し込みください。</p>
+          </li>
+        </ul>
+
+        <div class="actions">
+          <!-- トップへ戻る（サイトが / でトップならこれでOK） -->
+          <a class="btn btn--ghost" href="/">トップへ戻る</a>
+
+          <!-- 再申込み：トップにフォームがある想定なら #form へ -->
+          <a class="btn" href="/#form">もう一度申し込む</a>
+        </div>
+
+        <p class="note">
+          ※ ご案内メールの送信は、システム状況により多少遅れる場合があります。
+        </p>
+      </div>
+    </div>
+  </main>
+</body>
+</html>
