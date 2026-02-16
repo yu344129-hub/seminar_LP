@@ -1,0 +1,1317 @@
+<!doctype html>
+<html lang="ja">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>【無料セミナー】インスタ投稿ノウハウと集客方法を大公開（店舗オーナー向け）</title>
+
+  <!-- OGP（先方公開時に差し替え） -->
+  <meta property="og:title" content="【無料セミナー】インスタ投稿ノウハウと集客方法を大公開" />
+  <meta property="og:description" content="顔出し・声出しなし。店舗ビジネス向け集客の考え方を90分で。" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="__PAGE_URL__" />
+  <meta property="og:image" content="__OG_IMAGE__" />
+
+  <!-- ✅ 背景画像（WebP）を先読み：CLSは発生しないが、背景表示を速くする -->
+  <link rel="preload" as="image"
+        href="./images/snsbridge-bg.webp"
+        imagesrcset="./images/snsbridge-bg.webp 1x, ./images/snsbridge-bg@2x.webp 2x"
+        imagesizes="100vw">
+
+  <style>
+    :root{
+      --bg:#ffffff;
+      --ink:#0b1220;          /* 本文（黒寄り） */
+      --muted:#5b6475;        /* サブ文言 */
+      --accent:#c13584;
+      --accent-rgb: 193, 53, 132;
+      --cta:#833ab4;
+      --cta-rgb: 131, 58, 180;
+      --navy: var(--accent);         /* メイン（ネイビー） */
+      --navy2: var(--accent);        /* リンク */
+      --line: rgba(var(--accent-rgb), .16);
+      --soft: rgba(var(--accent-rgb), .06);
+      --shadow: 0 18px 48px rgba(var(--accent-rgb), .18);
+      --radius:18px;
+      --radius2:26px;
+      --container:min(1180px, 100%);
+    }
+
+    *{ box-sizing:border-box; }
+    html, body{
+      height:100%;
+      width:100%;
+      margin:0;
+      padding:0;
+      background:var(--bg);
+      color:var(--ink);
+      overflow-x:hidden;
+      font-family: system-ui, -apple-system, "Segoe UI", "Hiragino Sans", "Yu Gothic", "Meiryo", sans-serif;
+      -webkit-font-smoothing: antialiased;
+      text-rendering: optimizeLegibility;
+    }
+
+    /* ====== ✅ SNS Bridge グラデ背景（retina + 容量対策） ======
+       - WebP(1x/2x) を image-set で出し分け
+       - PNG(1x/2x) をフォールバックに用意
+       - 旧ブラウザ向けに単純な background-image も残す
+    */
+    body{
+      position:relative;
+      isolation:isolate; /* 擬似要素の重なりを安定させる */
+    }
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-2;
+      pointer-events:none;
+
+      /* フォールバック（image-set 非対応ブラウザ） */
+      background-image:url("./images/snsbridge-bg@2x.png");
+
+      /* Safari / Chrome */
+      background-image: -webkit-image-set(
+        url("./images/snsbridge-bg.webp") type("image/webp") 1x,
+        url("./images/snsbridge-bg@2x.webp") type("image/webp") 2x,
+        url("./images/snsbridge-bg.png") type("image/png") 1x,
+        url("./images/snsbridge-bg@2x.png") type("image/png") 2x
+      );
+      background-image: image-set(
+        url("./images/snsbridge-bg.webp") type("image/webp") 1x,
+        url("./images/snsbridge-bg@2x.webp") type("image/webp") 2x,
+        url("./images/snsbridge-bg.png") type("image/png") 1x,
+        url("./images/snsbridge-bg@2x.png") type("image/png") 2x
+      );
+
+      background-size:cover;
+      background-position:center top;
+      background-repeat:no-repeat;
+      transform: translateZ(0);
+    }
+    /* 読みやすさ確保：背景の上に薄い白ベール（全体） */
+    body::after{
+      content:"";
+      position:fixed;
+      inset:0;
+      z-index:-1;
+      pointer-events:none;
+      background:
+        radial-gradient(1200px 700px at 28% 10%,
+          rgba(255,255,255,.64),
+          rgba(255,255,255,.86) 60%,
+          rgba(255,255,255,.92)
+        );
+    }
+
+    a{ color:var(--navy2); text-decoration:none; }
+    a:hover{ text-decoration:underline; }
+
+    /* ====== 固定トップバー ====== */
+    .topbar{
+      position:fixed;
+      top:0; left:0; right:0;
+      height:64px;
+      z-index:9999;
+      background:rgba(255,255,255,.92);
+      backdrop-filter: blur(10px);
+      border-bottom:1px solid var(--line);
+    }
+    .topbar__inner{
+      width:var(--container);
+      margin:0 auto;
+      height:100%;
+      padding:0 18px;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .brand{
+      display:flex; align-items:center; gap:10px;
+      min-width:0;
+      font-weight:800;
+      letter-spacing:.02em;
+    }
+    /* ✅ ロゴ画像に差し替え */
+    .brand__logo{
+      height:60px;
+      width:auto;
+      display:block;
+      filter: drop-shadow(0 10px 18px rgba(var(--accent-rgb), .18));
+    }
+    .brand__name{
+      display:none; /* ロゴ内に表記がある想定 */
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+
+    .topbar__actions{ display:flex; align-items:center; gap:10px; }
+    .pill{
+      display:inline-flex; align-items:center; gap:8px;
+      padding:10px 12px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:#fff;
+      color:var(--ink);
+      font-weight:700;
+      font-size:14px;
+      line-height:1;
+      white-space:nowrap;
+    }
+    .btn{
+      display:inline-flex; align-items:center; justify-content:center;
+      padding:12px 16px;
+      border-radius:999px;
+      border:0;
+      background:var(--navy);
+      color:#fff;
+      font-weight:800;
+      font-size:14px;
+      letter-spacing:.02em;
+      box-shadow: 0 16px 40px rgba(var(--accent-rgb), .26);
+      white-space:nowrap;
+      cursor:pointer;
+    }
+    .btn:hover{ filter:brightness(1.02); }
+    .btn:active{ transform: translateY(1px); }
+
+    .btn--cta{
+      background: var(--cta);
+      box-shadow: 0 16px 40px rgba(var(--cta-rgb), .26);
+    }
+    .btn--cta:hover{ filter:brightness(1.03); }
+
+    main{ padding-top:64px; }
+
+    /* ====== セクション共通 ====== */
+    .section{ padding:60px 0; }
+    /* ✅ 背景が見えるように“白を少し透かす” */
+    .section--soft{
+      background: linear-gradient(180deg, rgba(255,255,255,.78), rgba(255,255,255,.64));
+      border-top:1px solid rgba(255,255,255,.40);
+      border-bottom:1px solid rgba(255,255,255,.40);
+    }
+    .wrap{
+      width:var(--container);
+      margin:0 auto;
+      padding:0 18px;
+    }
+    .kicker{
+      display:inline-flex;
+      gap:8px;
+      align-items:center;
+      padding:8px 10px;
+      border:1px solid var(--line);
+      border-radius:999px;
+      background:rgba(255,255,255,.86);
+      font-weight:800;
+      font-size:15px;
+      color:var(--navy);
+    }
+    .h1{
+      margin:14px 0 10px;
+      font-size: clamp(28px, 3.6vw, 46px);
+      line-height:1.14;
+      letter-spacing:.01em;
+    }
+    .lead{
+      margin:0 0 18px;
+      font-size: clamp(15px, 1.6vw, 18px);
+      line-height:1.7;
+      color:var(--muted);
+      max-width: 54ch;
+    }
+
+    .grid-hero{
+      display:grid;
+      grid-template-columns: 1.08fr .92fr;
+      gap:22px;
+      align-items:start;
+    }
+    .hero-card{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background:#fff;
+      box-shadow: var(--shadow);
+      padding:22px;
+    }
+
+    .h2{
+      margin:0 0 14px;
+      font-size: clamp(20px, 2.2vw, 28px);
+      line-height:1.25;
+      letter-spacing:.01em;
+    }
+    .p{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:15px;
+    }
+
+    .cards{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:18px;
+    }
+    .card{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background:#fff;
+      box-shadow: 0 14px 38px rgba(var(--accent-rgb), .10);
+      padding:18px;
+      min-height: 140px;
+    }
+    .card__t{
+      font-weight:900;
+      color:var(--navy);
+      margin-bottom:8px;
+      letter-spacing:.01em;
+    }
+    .card__d{
+      color:var(--muted);
+      line-height:1.75;
+      font-size:14px;
+    }
+
+    .cta-panel{
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:14px;
+      padding:18px;
+      border-radius: var(--radius2);
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.86);
+      box-shadow: 0 18px 48px rgba(11,42,91,.12);
+      margin-top:22px;
+    }
+    .cta-panel__t{
+      font-weight:900;
+      color:var(--ink);
+      letter-spacing:.01em;
+      line-height:1.35;
+    }
+
+    /* ====== FAQ（▼を見せる） ====== */
+    .faq{
+      display:grid;
+      gap:10px;
+      margin:14px auto 0;
+      max-width: 84ch;
+    }
+    details{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      background:#fff;
+      padding:12px 14px;
+      box-shadow: 0 12px 34px rgba(11,42,91,.08);
+      overflow:hidden;
+    }
+    summary{
+      cursor:pointer;
+      font-weight:900;
+      color:var(--navy);
+      list-style:none;
+      outline:none;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:12px;
+    }
+    summary::-webkit-details-marker{ display:none; }
+    summary::after{
+      content:"▾";
+      font-size:18px;
+      line-height:1;
+      color:var(--navy);
+      opacity:.9;
+      transform: translateY(-1px);
+      transition: transform .18s ease, opacity .18s ease;
+      flex:0 0 auto;
+    }
+    details[open] summary::after{
+      transform: rotate(180deg);
+      opacity:1;
+    }
+    details p{
+      margin:10px 0 0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:14px;
+    }
+
+    /* ====== フォーム ====== */
+    form{
+      margin:14px auto 0;
+      display:grid;
+      gap:12px;
+      max-width: 720px;
+    }
+    label{ font-weight:800; font-size:13px; color:var(--ink); }
+    input, select, textarea{
+      width:100%;
+      border:1px solid var(--line);
+      border-radius: 14px;
+      padding:12px 12px;
+      font-size:15px;
+      outline:none;
+      background:#fff;
+    }
+    input:focus, select:focus, textarea:focus{
+      border-color: rgba(11,42,91,.55);
+      box-shadow: 0 0 0 4px rgba(var(--accent-rgb), .10);
+    }
+    .form-row{
+      display:grid;
+      grid-template-columns: 1fr 1fr;
+      gap:12px;
+    }
+    .submit{
+      width:100%;
+      padding:16px 18px;
+      font-size:16px;
+      font-weight:900;
+      letter-spacing:.02em;
+    }
+    .fineprint{
+      font-size:12px;
+      color:var(--muted);
+      line-height:1.7;
+      margin-top:8px;
+    }
+
+    /* ====== ポップアウト ====== */
+    .reveal{
+      opacity:0;
+      transform: translateY(14px);
+      transition: opacity .6s ease, transform .6s ease;
+    }
+    .reveal.is-in{
+      opacity:1;
+      transform: translateY(0);
+    }
+    @media (prefers-reduced-motion: reduce){
+      .reveal{ opacity:1; transform:none; transition:none; }
+    }
+
+    /* ====== レスポンシブ（全体） ====== */
+    @media (max-width: 980px){
+      .grid-hero{ grid-template-columns: 1fr; }
+      .cards{ grid-template-columns: 1fr; }
+      .cta-panel{ flex-direction:column; align-items:flex-start; }
+    }
+    @media (max-width: 520px){
+      .topbar__inner{ padding:0 12px; }
+      .pill{ display:none; }
+      .form-row{ grid-template-columns: 1fr; }
+      .section{ padding:44px 0; }
+      .brand__logo{ height:30px; }
+    }
+
+    /* ====== 強調 ====== */
+    .em-hl{
+      font-weight: 900;
+      color: var(--navy);
+      background: linear-gradient(transparent 62%, rgba(255, 238, 0, 0.45) 62%);
+      padding: 0 .18em;
+      border-radius: .35em;
+    }
+
+    /* ====== FV：アカウント実績（3分割） ====== */
+    .platforms{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:10px;
+      margin-top:14px;
+    }
+    .platform{
+      border:1px solid var(--line);
+      border-radius: 16px;
+      padding:12px 12px;
+      background: rgba(255,255,255,.86);
+      min-width:0;
+    }
+    .platform__top{
+      display:flex;
+      align-items:center;
+      gap:10px;
+      margin-bottom:10px;
+      min-width:0;
+    }
+    .platform__icon{
+      width:34px; height:34px;
+      border-radius:12px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.92);
+      display:grid;
+      place-items:center;
+      font-weight:900;
+      color:var(--navy);
+      flex:0 0 auto;
+      overflow:hidden;
+    }
+    .platform__icon img{
+      width:22px; height:22px;
+      object-fit:contain;
+      display:block;
+    }
+    .platform__name{
+      font-weight:900;
+      color:var(--ink);
+      white-space:nowrap;
+      overflow:hidden;
+      text-overflow:ellipsis;
+    }
+    .platform__meta{
+      font-size:12px;
+      color:var(--muted);
+      font-weight:800;
+      letter-spacing:.02em;
+      line-height:1.4;
+    }
+    .platform__value{
+      margin-top:4px;
+      font-size:18px;
+      font-weight:900;
+      color:var(--ink);
+      letter-spacing:.01em;
+    }
+    .platform__stats{
+      display:grid;
+      grid-template-columns: 1fr 1.25fr;
+      column-gap: 14px;
+      align-items:start;
+    }
+    @media (max-width: 520px){
+      .platforms{ grid-template-columns: 1fr; }
+    }
+
+    /* ====== 開催：左 日程 / 右 バッジ ====== */
+    .event{
+      margin-top:14px;
+      padding-top:14px;
+      border-top:1px solid var(--line);
+    }
+    .event__head{
+      font-weight:900;
+      color:var(--ink);
+      margin-bottom:8px;
+    }
+    .event__body{
+      display:flex;
+      align-items:flex-start;
+      justify-content:space-between;
+      gap:14px;
+    }
+    .event__dates{
+      margin:0;
+      color:var(--muted);
+      line-height:1.8;
+      font-size:14px;
+      font-weight:700;
+    }
+    .event__badges{
+      display:flex;
+      flex-wrap:wrap;
+      gap:8px;
+      justify-content:flex-end;
+      align-items:flex-start;
+      min-width: 160px;
+    }
+    .event__badge{
+      display:inline-flex;
+      align-items:center;
+      padding:8px 10px;
+      border-radius:999px;
+      background: rgba(255,255,255,.82);
+      color: var(--cta);
+      border:1px solid var(--line);
+      font-weight:900;
+      font-size:16px;
+      white-space:nowrap;
+    }
+    @media (max-width: 520px){
+      .event__body{
+        flex-direction:column;
+        align-items:flex-start;
+      }
+      .event__badges{
+        justify-content:flex-start;
+        min-width: 0;
+      }
+    }
+
+    /* ====== 悩みセクション（左イラスト＋右枠） ====== */
+    .pain{
+      padding:72px 0;
+      background: rgba(255,255,255,.70);
+      border-top:1px solid rgba(255,255,255,.40);
+      border-bottom:1px solid rgba(255,255,255,.40);
+    }
+    .pain__head{
+      text-align:center;
+      margin-bottom:18px;
+    }
+    .pain__title{
+      display:inline-flex;
+      align-items:flex-start;
+      gap:10px;
+      font-weight:900;
+      color:var(--ink);
+      letter-spacing:.01em;
+      line-height:1.25;
+      font-size:clamp(24px, 2.6vw, 34px);
+    }
+    .pain__grid{
+      display:grid;
+      grid-template-columns: minmax(260px, 420px) 1fr;
+      gap:34px;
+      align-items:center;
+    }
+    .pain__illust{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+    }
+    .pain__illust img,
+    .pain__illust svg{
+      width:100%;
+      height:auto;
+      max-width: 420px;
+      display:block;
+    }
+    .pain__bubble{
+      position:relative;
+      background:#fff;
+      border:3px solid rgba(11,42,91,.55);
+      border-radius:14px;
+      padding:26px 34px;
+      box-shadow: 0 18px 48px rgba(var(--accent-rgb), .10);
+      isolation:isolate;
+    }
+    .pain__bubble::before,
+    .pain__bubble::after{
+      content: none !important;
+      display: none !important;
+    }
+    .pain__list{
+      list-style:none;
+      margin:0;
+      padding:0;
+      display:grid;
+      gap:16px;
+    }
+    .pain__item{
+      display:flex;
+      gap:14px;
+      align-items:flex-start;
+      color:var(--ink);
+      font-weight:800;
+      letter-spacing:.01em;
+      line-height:1.55;
+      font-size:clamp(16px, 1.6vw, 20px);
+    }
+    .pain__check{
+      width:26px;
+      height:26px;
+      border-radius:6px;
+      border:2px solid rgba(11,42,91,.55);
+      background:#fff;
+      flex:0 0 auto;
+      margin-top:2px;
+      display:grid;
+      place-items:center;
+    }
+    .pain__check::after{
+      content:"";
+      width:8px;
+      height:14px;
+      border-right:3px solid var(--navy);
+      border-bottom:3px solid var(--navy);
+      transform: translateY(-1px) rotate(45deg);
+    }
+    .pain.pain--no-stack .pain__grid > *{ min-width:0; }
+    .pain.pain--no-stack .pain__bubble{ min-width:0; }
+    @media (max-width: 980px){
+      .pain.pain--no-stack .pain__grid{
+        grid-template-columns: clamp(180px, 30vw, 360px) 1fr;
+        gap: clamp(12px, 2.4vw, 22px);
+        align-items:center;
+      }
+      .pain.pain--no-stack .pain__bubble{ padding:20px 20px; }
+      .pain.pain--no-stack .pain__item{ font-size: clamp(14px, 1.9vw, 18px); }
+      .pain.pain--no-stack .pain__check{ width:22px; height:22px; border-radius:6px; }
+      .pain.pain--no-stack .pain__check::after{
+        width:6px; height:11px;
+        border-right:3px solid var(--navy);
+        border-bottom:3px solid var(--navy);
+        transform: translateY(-1px) rotate(45deg);
+      }
+    }
+    @media (max-width: 640px){
+      .pain.pain--no-stack .pain__grid{
+        grid-template-columns: clamp(140px, 34vw, 260px) 1fr;
+        gap: 12px;
+        align-items:center;
+      }
+      .pain.pain--no-stack .pain__bubble{ padding:16px 14px; }
+      .pain.pain--no-stack .pain__item{ font-size: clamp(13px, 3.2vw, 16px); }
+    }
+    @media (max-width: 420px){
+      .pain.pain--no-stack .pain__grid{
+        grid-template-columns: 1fr;
+        gap: 14px;
+      }
+      .pain.pain--no-stack .pain__bubble{ padding:16px 14px; }
+    }
+
+    .pain .cta-panel--narrow{
+      width: 100%;
+      max-width: 780px;
+      margin-left: auto;
+      margin-right: auto;
+    }
+    @media (max-width: 820px){
+      .pain .cta-panel--narrow{ max-width: 100%; }
+    }
+
+    /* ====== ★参加後、こう変わります：3コラム（左端を薄ネイビーで塗る＋タイトル前に01） ====== */
+    .benefits{
+      display:grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap:14px;
+      margin-top:16px;
+    }
+    .benefit{
+      border:1px solid var(--line);
+      border-radius: var(--radius2);
+      background: linear-gradient(90deg, rgba(11,42,91,.06) 0 12px, rgba(255,255,255,.92) 12px);
+      box-shadow: 0 14px 38px rgba(var(--accent-rgb), .10);
+      padding:18px;
+      padding-left: 26px;
+      min-height: 160px;
+    }
+    .benefit__t{
+      display:flex;
+      align-items:baseline;
+      gap:10px;
+      font-weight:900;
+      color:var(--navy);
+      letter-spacing:.01em;
+      margin-bottom:8px;
+      line-height:1.35;
+    }
+    .benefit__no{
+      font-weight:900;
+      color:var(--navy);
+      letter-spacing:.10em;
+      font-size:20px;
+      line-height:1;
+      transform: translateY(-1px);
+      flex:0 0 auto;
+    }
+    .benefit__d{
+      color:var(--muted);
+      line-height:1.75;
+      font-size:14px;
+    }
+    @media (max-width: 980px){
+      .benefits{ grid-template-columns: 1fr; }
+    }
+
+    /* ✅ 追加：外部情報アイコン（文字量を減らして視線を作る） */
+    .ext-icons{
+      display:flex;
+      flex-wrap:wrap;
+      justify-content:center;
+      gap:10px;
+      margin-top:14px;
+    }
+    .ext-icon{
+      width:46px; height:46px;
+      border-radius:16px;
+      border:1px solid var(--line);
+      background: rgba(255,255,255,.86);
+      display:grid;
+      place-items:center;
+      box-shadow: 0 10px 26px rgba(11,42,91,.08);
+    }
+    .ext-icon img{
+      width:28px; height:28px;
+      object-fit:contain;
+      display:block;
+    }
+
+    /* ✅ 「よくある質問」など、セクションを白い“塊”にしてメリハリ */
+    .wrap--white{
+    background:#fff;
+    border:1px solid var(--line);
+    border-radius: var(--radius2);
+    box-shadow: 0 18px 48px rgba(var(--accent-rgb), .12);
+    padding: 26px 22px;  /* wrapのpaddingを上書きして“塊感”を出す */
+    }
+    @media (max-width: 520px){
+    .wrap--white{ padding:18px 14px; }
+    }
+
+    /* ✅ 「投稿ではなく…」CTAを白背景で強調（ストライプ付き） */
+    .cta-panel--white{
+    background:#fff;
+    border:1px solid rgba(var(--accent-rgb), .22);
+    box-shadow: 0 22px 64px rgba(var(--accent-rgb), .14);
+    position:relative;
+    overflow:hidden;
+    }
+    .cta-panel--white::before{
+    content:"";
+    position:absolute;
+    inset:0 0 auto 0;
+    height:6px;
+    background: linear-gradient(90deg, #ff2a7a, #ff7a18, #db2777);
+    opacity:.95;
+    }
+
+    /* ====== FV右：キービジュアル（画像） ====== */
+    .hero-visual{
+    border: none !important;
+    border-radius: var(--radius2);
+    background: rgba(255,255,255,.86);
+    background: transparent !important;
+    box-shadow: none !important;
+    padding: 0;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    min-height: 360px;
+    }
+    .hero-visual picture{
+      transform: translate(-50px, -50px);
+    }
+    .hero-visual img{
+    width:100%;
+    max-width: 420px;
+    height:auto;
+    display:block;
+    }
+
+    /* ====== 実績ブロック：次セクションへ移動して中央寄せ ====== */
+    .metrics-card{
+    max-width: 980px;
+    margin: 0 auto;
+    text-align:center;
+    }
+    .metrics-card .platforms{
+    margin-top:18px;
+    text-align:left; /* 中身は読みやすく左寄せ、ブロック自体は中央配置 */
+    }
+    .metrics-card .event{
+    text-align:left;
+    }
+
+    @media (max-width: 980px){
+    .hero-visual{ min-height: 0; }
+    .hero-visual img{ max-width: 520px; }
+    .metrics-card .platforms,
+    .metrics-card .event{ text-align:left; }
+    }
+
+    /* ====== FV 左本文：少し右寄りにする（FVだけに効かせる） ====== */
+    .hero-copy{
+      padding-left: 12px; /* 12〜28pxあたりで微調整 */
+    }
+
+     /* ====== スクロールバーを「必ず」表示（Edge/Win11） ======
+       目的：
+       - スクロールできるのにバー/つまみが見えない問題を潰す
+       - “右側に空きだけ残る”問題を潰す（overflow-y:auto）
+       方針：
+       - スクロール本体を body に寄せる（Chrome系で::-webkit-scrollbarが確実に効く）
+       - html/body/グローバルに !important で上書きして「消されても復活」させる
+    */
+    html{
+      height:100%;
+      overflow:hidden; /* 二重スクロール防止（スクロール本体は body） */
+    }
+    body{
+      height:100%;
+      overflow-y:auto;     /* 必要な時だけスクロールバー（＝無駄な右の空きが出ない） */
+      overflow-x:hidden;
+      scrollbar-gutter:auto; /* どこかで stable 指定されてても戻す */
+    }
+
+    /* Firefox */
+    html, body{
+      scrollbar-width:auto !important;
+      scrollbar-color: rgba(0,0,0,.45) rgba(0,0,0,.14) !important;
+    }
+
+    /* Edge/Chrome (Chromium) : どの要素がスクロールでも効くように “グローバル + html/body” */
+    ::-webkit-scrollbar,
+    html::-webkit-scrollbar,
+    body::-webkit-scrollbar{
+      width:12px !important;
+      height:12px !important;
+    }
+    ::-webkit-scrollbar-track,
+    html::-webkit-scrollbar-track,
+    body::-webkit-scrollbar-track{
+      background: rgba(0,0,0,.14) !important;
+    }
+    ::-webkit-scrollbar-thumb,
+    html::-webkit-scrollbar-thumb,
+    body::-webkit-scrollbar-thumb{
+      background-color: rgba(0,0,0,.45) !important;
+      border-radius: 999px !important;
+      border: 3px solid rgba(0,0,0,.14) !important;
+      background-clip: padding-box !important;
+      min-height: 44px; /* つまみが極小/消える対策 */
+    }
+    ::-webkit-scrollbar-thumb:hover,
+    html::-webkit-scrollbar-thumb:hover,
+    body::-webkit-scrollbar-thumb:hover{
+      background-color: rgba(0,0,0,.62) !important;
+    }
+    
+  </style>
+</head>
+
+<body>
+  <header class="topbar">
+    <div class="topbar__inner">
+      <div class="brand" aria-label="サイト名">
+        <img class="brand__logo" src="./images/snsbridge-logo.webp" alt="SNS Bridge" />
+        <div class="brand__name">SNS Bridge</div>
+      </div>
+      <div class="topbar__actions">
+        <a class="btn btn--cta"  href="#form">無料で参加する</a>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <!-- FV -->
+    <section class="section section--soft">
+      <div class="wrap">
+        <span class="kicker">店舗オーナー限定 / 参加費無料</span>
+        <div class="grid-hero">
+          <div class="reveal hero-copy">
+            <h1 class="h1">インスタ投稿ノウハウと<br>集客方法を大公開</h1>
+            <p class="lead">
+              顔出し・声出しなし。<br>
+              非属人的コンテンツで、<span class="em-hl">月間1億再生</span>
+            </p>
+
+            <div class="cta-panel" style="margin-top:20px;">
+              <div>
+                <div class="cta-panel__t">アンケート回答で <span class="em-hl">60分無料SNSコンサル</span>＋資料共有</div>
+              </div>
+              <a class="btn btn--cta"  href="#form">無料で参加する</a>
+            </div>
+          </div>
+
+          <!-- FV右：キービジュアル画像 -->
+          <div class="hero-visual reveal" aria-label="キービジュアル">
+            <picture>
+                <!-- 推奨：WebP 1x/2x -->
+                <!-- <source type="image/webp"
+                  srcset="./images/fv-phone.webp 1x, ./images/fv-phone@2x.webp 2x"> -->
+                <!-- フォールバック（PNGでもOK。1枚だけなら fv-phone.png をここに） -->
+                <img
+                  src="./images/fv-phone.png"
+                  width="1024" height="1024"
+                  alt=""
+                  decoding="async"
+                  fetchpriority="high"
+                />
+            </picture>
+          </div>
+
+
+          <!-- FV：実績 -->
+          <!-- <aside class="hero-card reveal" aria-label="実績">
+            <div style="font-weight:900; color:var(--ink); letter-spacing:.01em;">プレゼンターのアカウント実績</div>
+
+            <div class="platforms" aria-label="フォロワー数">
+              <div class="platform">
+                <div class="platform__top">
+                  <div class="platform__icon" aria-hidden="true">
+                    <img src="./images/icon-tiktok.webp" alt="" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="platform__name">TikTok</div>
+                </div>
+                <div class="platform__stats">
+                  <div class="platform__stat">
+                    <div class="platform__meta">フォロワー</div>
+                    <div class="platform__value">11.5万</div>
+                  </div>
+
+                  <div class="platform__stat platform__stat--right">
+                    <div class="platform__meta">月間再生</div>
+                    <div class="platform__value">1600万</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="platform">
+                <div class="platform__top">
+                  <div class="platform__icon" aria-hidden="true">
+                    <img src="./images/icon-instagram.webp" alt="" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="platform__name">Instagram</div>
+                </div>
+                <div class="platform__stats">
+                  <div class="platform__stat">
+                    <div class="platform__meta">フォロワー</div>
+                    <div class="platform__value">11.5万</div>
+                  </div>
+
+                  <div class="platform__stat platform__stat--right">
+                    <div class="platform__meta">月間再生</div>
+                    <div class="platform__value">4000万</div>
+                  </div>
+                </div>
+              </div>
+
+              <div class="platform">
+                <div class="platform__top">
+                  <div class="platform__icon" aria-hidden="true">
+                    <img src="./images/icon-youtube.webp" alt="" loading="lazy" decoding="async" />
+                  </div>
+                  <div class="platform__name">YouTube</div>
+                </div>
+                <div class="platform__stats">
+                  <div class="platform__stat">
+                    <div class="platform__meta">フォロワー</div>
+                    <div class="platform__value">11.5万</div>
+                  </div>
+
+                  <div class="platform__stat platform__stat--right">
+                    <div class="platform__meta">月間再生</div>
+                    <div class="platform__value">5000万</div>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <div class="event">
+              <div class="event__head">開催日程</div>
+
+              <div class="event__body">
+                <div class="event__dates">
+                  <div>2/17(火) 15:00~/20:00~</div>
+                  <div>2/18(水) 15:00~/20:00~</div>
+                </div>
+
+                <div class="event__badges" aria-label="開催特典">
+                  <span class="event__badge">参加費無料</span>
+                  <span class="event__badge">特典付き</span>
+                </div>
+              </div>
+            </div>
+          </aside> -->
+        </div>
+      </div>
+    </section>
+
+    <!-- 実績（FVから移動） -->
+    <section class="section">
+    <div class="wrap reveal">
+        <div class="hero-card metrics-card" aria-label="実績">
+        <div style="font-weight:900; color:var(--ink); letter-spacing:.01em; margin-bottom:6px;">
+            プレゼンターのアカウント実績
+        </div>
+
+        <div class="platforms" aria-label="フォロワー数">
+            <div class="platform">
+            <div class="platform__top">
+                <div class="platform__icon" aria-hidden="true">
+                <img src="./images/icon-tiktok.webp" alt="" loading="lazy" decoding="async" />
+                </div>
+                <div class="platform__name">TikTok</div>
+            </div>
+            <div class="platform__stats">
+                <div class="platform__stat">
+                <div class="platform__meta">フォロワー</div>
+                <div class="platform__value">11.5万</div>
+                </div>
+                <div class="platform__stat platform__stat--right">
+                <div class="platform__meta">月間再生</div>
+                <div class="platform__value">1600万</div>
+                </div>
+            </div>
+            </div>
+
+            <div class="platform">
+            <div class="platform__top">
+                <div class="platform__icon" aria-hidden="true">
+                <img src="./images/icon-instagram.webp" alt="" loading="lazy" decoding="async" />
+                </div>
+                <div class="platform__name">Instagram</div>
+            </div>
+            <div class="platform__stats">
+                <div class="platform__stat">
+                <div class="platform__meta">フォロワー</div>
+                <div class="platform__value">11.5万</div>
+                </div>
+                <div class="platform__stat platform__stat--right">
+                <div class="platform__meta">月間再生</div>
+                <div class="platform__value">4000万</div>
+                </div>
+            </div>
+            </div>
+
+            <div class="platform">
+            <div class="platform__top">
+                <div class="platform__icon" aria-hidden="true">
+                <img src="./images/icon-youtube.webp" alt="" loading="lazy" decoding="async" />
+                </div>
+                <div class="platform__name">YouTube</div>
+            </div>
+            <div class="platform__stats">
+                <div class="platform__stat">
+                <div class="platform__meta">フォロワー</div>
+                <div class="platform__value">11.5万</div>
+                </div>
+                <div class="platform__stat platform__stat--right">
+                <div class="platform__meta">月間再生</div>
+                <div class="platform__value">5000万</div>
+                </div>
+            </div>
+            </div>
+        </div>
+
+        <div class="event">
+            <div class="event__head">開催日程</div>
+            <div class="event__body">
+            <div class="event__dates">
+                <div>2/17(火) 15:00~/20:00~</div>
+                <div>2/18(水) 15:00~/20:00~</div>
+            </div>
+
+            <div class="event__badges" aria-label="開催特典">
+                <span class="event__badge">参加費無料</span>
+                <span class="event__badge">特典付き</span>
+            </div>
+            </div>
+        </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- 共感（悩み） -->
+    <section class="pain pain--no-stack">
+      <div class="wrap">
+        <div class="pain__head reveal">
+          <div class="pain__title">集客について<br>こんな事お悩みないですか？</div>
+        </div>
+
+        <div class="pain__grid reveal">
+          <div class="pain__illust" aria-hidden="true">
+            <img src="./images/confusing_person.png" alt="" />
+          </div>
+
+          <div class="pain__bubble">
+            <ul class="pain__list">
+              <li class="pain__item"><span class="pain__check"></span>投稿が続かない</li>
+              <li class="pain__item"><span class="pain__check"></span>何を投稿すべきかわからない</li>
+              <li class="pain__item"><span class="pain__check"></span>頑張っても来店につながらない</li>
+            </ul>
+          </div>
+        </div>
+
+        <div class="cta-panel cta-panel--narrow cta-panel--white reveal" style="margin-top:28px;">
+          <div>
+            <div class="cta-panel__t">「投稿」ではなく、<br>“集客導線”から組み立てる考え方をお伝えします。</div>
+          </div>
+          <a class="btn btn--cta"  href="#form">無料で相談する</a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ✅ 参加後、こう変わります：3コラム -->
+    <section class="section section--soft">
+      <div class="wrap reveal">
+        <h2 class="h2">参加後、こう変わります</h2>
+
+        <div class="benefits" aria-label="参加後、こう変わります">
+          <div class="benefit">
+            <div class="benefit__t"><span class="benefit__no" aria-hidden="true">1</span>投稿の「型」が決まる</div>
+            <div class="benefit__d">反応が取りやすい構成をテンプレ化。迷わず継続できる運用の土台を作ります。</div>
+          </div>
+
+          <div class="benefit">
+            <div class="benefit__t"><span class="benefit__no" aria-hidden="true">2</span>来店につながる導線が分かる</div>
+            <div class="benefit__d">投稿→プロフィール→行動（予約/DM）までをつなぐ設計を整理します。</div>
+          </div>
+
+          <div class="benefit">
+            <div class="benefit__t"><span class="benefit__no" aria-hidden="true">3</span>最初の打ち手が決まる</div>
+            <div class="benefit__d">業種でズレやすいポイントを押さえ、優先順位と改善ポイントが明確になります。</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- 追加訴求（SNS Bridge強み） -->
+    <section class="section">
+      <div class="wrap reveal" style="text-align:center;">
+        <h2 class="h2">さらに！効率的な集客方法も大公開！</h2>
+        <p class="p">
+          AI/検索の時代は、SNSの「投稿」だけで終わらせず、<span class="em-hl">見つけられる情報設計</span>が重要です。<br>
+          SNS Bridgeでは、投稿・プロフィール・外部情報（検索で見られる情報）まで“つなげて”、来店につながる導線を最短で作る考え方を共有します。
+        </p>
+
+        <!-- ✅ 外部情報の例（アイコン） -->
+        <div class="ext-icons" aria-label="外部情報の例">
+          <div class="ext-icon" title="Google マップ">
+            <img src="./images/icon-googlemap.webp" alt="Google マップ" loading="lazy" decoding="async" />
+          </div>
+          <div class="ext-icon" title="食べログ">
+            <img src="./images/icon-tabelog.webp" alt="食べログ" loading="lazy" decoding="async" />
+          </div>
+          <div class="ext-icon" title="Hot Pepper Beauty">
+            <img src="./images/icon-hotpepperbeauty.webp" alt="Hot Pepper Beauty" loading="lazy" decoding="async" />
+          </div>
+          <div class="ext-icon" title="Instagram">
+            <img src="./images/icon-instagram.webp" alt="Instagram" loading="lazy" decoding="async" />
+          </div>
+          <div class="ext-icon" title="TikTok">
+            <img src="./images/icon-tiktok.webp" alt="TikTok" loading="lazy" decoding="async" />
+          </div>
+        </div>
+
+        <p class="p" style="margin-top:10px;">
+          <span class="em-hl">過去2年間で導入実績670件！</span>
+        </p>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section">
+      <div class="wrap reveal wrap--white">
+        <h2 class="h2">よくある質問</h2>
+        <div class="faq">
+          <details>
+            <summary>顔出し・声出しは必要ですか？</summary>
+            <p>不要です。顔出し・声出し無しでも成立する考え方を前提にお話しします。</p>
+          </details>
+          <details>
+            <summary>SNS初心者でも大丈夫ですか？</summary>
+            <p>大丈夫です。まず「何を投稿するか」より「集客導線」を整理するので迷いが減ります。</p>
+          </details>
+          <details>
+            <summary>業種の対象は？</summary>
+            <p>飲食・サロン・クリニックなど、店舗ビジネスのオーナー様を想定しています。</p>
+          </details>
+        </div>
+      </div>
+    </section>
+
+    <!-- 申込みフォーム -->
+    <section id="form" class="section section--soft">
+      <div class="wrap reveal">
+        <h2 class="h2">お申し込み（無料）</h2>
+
+        <form action="https://script.google.com/macros/s/AKfycbwBCgZnJ25Db_51pQ32UT_xkSGekOgEje9vUIaogis5jEHEJom6mcxSdQLU0XAFzqNqYg/exec" method="post" accept-charset="UTF-8">
+          <!-- 迷惑送信対策：ハニーポット -->
+          <input type="hidden" name="page_url" value="">
+          <input type="hidden" name="user_agent" value="">
+          <div style="position:absolute; left:-9999px; top:-9999px; height:0; overflow:hidden;">
+            <label>会社名（入力しないでください）<input type="text" name="company_confirm" tabindex="-1" autocomplete="off"></label>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>お名前（必須）</label>
+              <input name="name" required placeholder="例）山田 太郎" />
+            </div>
+            <div>
+              <label>メールアドレス（必須）</label>
+              <input name="email" type="email" required placeholder="例）example@domain.com" />
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>店舗名（必須）</label>
+              <input name="store_name" required placeholder="例）〇〇カフェ" />
+            </div>
+            <div>
+              <label>参加希望枠（必須）</label>
+              <select name="slot" required>
+                <option value="">選択してください</option>
+                <option>2/17(火) 15:00</option>
+                <option>2/17(火) 20:00</option>
+                <option>2/18(水) 15:00</option>
+                <option>2/18(水) 20:00</option>
+              </select>
+            </div>
+          </div>
+
+          <div class="form-row">
+            <div>
+              <label>店舗住所：都道府県（必須）</label>
+              <select name="prefecture" required>
+                <option value="">選択してください</option>
+                <option>北海道</option><option>青森県</option><option>岩手県</option><option>宮城県</option><option>秋田県</option><option>山形県</option><option>福島県</option>
+                <option>茨城県</option><option>栃木県</option><option>群馬県</option><option>埼玉県</option><option>千葉県</option><option>東京都</option><option>神奈川県</option>
+                <option>新潟県</option><option>富山県</option><option>石川県</option><option>福井県</option><option>山梨県</option><option>長野県</option>
+                <option>岐阜県</option><option>静岡県</option><option>愛知県</option><option>三重県</option>
+                <option>滋賀県</option><option>京都府</option><option>大阪府</option><option>兵庫県</option><option>奈良県</option><option>和歌山県</option>
+                <option>鳥取県</option><option>島根県</option><option>岡山県</option><option>広島県</option><option>山口県</option>
+                <option>徳島県</option><option>香川県</option><option>愛媛県</option><option>高知県</option>
+                <option>福岡県</option><option>佐賀県</option><option>長崎県</option><option>熊本県</option><option>大分県</option><option>宮崎県</option><option>鹿児島県</option>
+                <option>沖縄県</option>
+              </select>
+            </div>
+            <div>
+              <label>店舗住所：市区町村（必須）</label>
+              <input name="city" required placeholder="例）渋谷区○○" />
+            </div>
+          </div>
+
+          <div>
+            <label>ひとこと（任意）</label>
+            <textarea name="message" rows="4" placeholder="例）SNSで集客を増やしたい、投稿の型が知りたい等"></textarea>
+          </div>
+
+          <button class="btn submit btn--cta" type="submit">無料で申し込む</button>
+        </form>
+      </div>
+    </section>
+
+    <footer class="section" style="padding:24px 0;">
+      <div class="wrap" style="color:var(--muted); font-size:12px; line-height:1.7;">
+        © SNS Bridge / お問い合わせ：support@example.com
+      </div>
+    </footer>
+  </main>
+
+  <script>
+    (function(){
+      // フォーム補助情報（任意）
+      const f = document.querySelector('form');
+      if (f) {
+        const pu = f.querySelector('input[name="page_url"]');
+        const ua = f.querySelector('input[name="user_agent"]');
+        if (pu) pu.value = location.href;
+        if (ua) ua.value = navigator.userAgent;
+      }
+      const els = document.querySelectorAll('.reveal');
+      const io = new IntersectionObserver((entries)=>{
+        for(const e of entries){
+          if(e.isIntersecting){
+            e.target.classList.add('is-in');
+            io.unobserve(e.target);
+          }
+        }
+      }, { threshold: 0.12 });
+      els.forEach(el=>io.observe(el));
+    })();
+  </script>
+</body>
+</html>
