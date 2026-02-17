@@ -1295,88 +1295,94 @@
   (function () {
     const THANKS_URL = "https://yu344129-hub.github.io/seminar_LP/thanks.html";
 
-    const f = document.querySelector("form");
+    // ✅ 対象フォーム（idがある前提。無い場合は最初のformにfallback）
+    const f = document.getElementById("signupForm") || document.querySelector("form");
+    if (!f) return;
 
-    // フォーム補助情報（page_url / user_agent）をセットする関数
+    // フォーム補助情報（page_url / user_agent）をセット
     function setMeta_() {
-      if (!f) return;
       const pu = f.querySelector('input[name="page_url"]');
       const ua = f.querySelector('input[name="user_agent"]');
       if (pu) pu.value = location.href;
       if (ua) ua.value = navigator.userAgent;
     }
 
-    if (f) {
-      // 送信先はGASの /exec のままでOK（form action はHTML側で設定済み前提）
-      // 画面遷移をGASに任せず、hidden iframeに送ってからLP側でthanksへ遷移させる
+    // 初期セット
+    setMeta_();
 
-      // hidden iframe を用意
-      let iframe = document.getElementById("hidden_iframe");
-      if (!iframe) {
-        iframe = document.createElement("iframe");
-        iframe.name = "hidden_iframe";
-        iframe.id = "hidden_iframe";
-        iframe.style.display = "none";
-        document.body.appendChild(iframe);
+    // 送信時：画面遷移をGASに任せず、LP側で確実にThanksへ
+    f.addEventListener("submit", (ev) => {
+      ev.preventDefault();
+
+      // required等の検証（ブラウザ標準UIで表示）
+      if (!f.checkValidity()) {
+        f.reportValidity();
+        return;
       }
 
-      // フォーム送信は iframe に流す（これで画面が /exec に遷移しない）
-      f.setAttribute("target", "hidden_iframe");
-
-      // 初期セット
       setMeta_();
 
-      let pendingRedirect = false;
+      // 二重送信防止
+      const btn = f.querySelector('button[type="submit"], input[type="submit"]');
+      if (btn) {
+        btn.disabled = true;
+        if (btn.tagName === "BUTTON") btn.textContent = "送信中...";
+      }
 
-      // iframe がレスポンスを受け取ったら thanks へ
-      iframe.addEventListener("load", () => {
-        if (!pendingRedirect) return;
-        pendingRedirect = false;
-        location.href = THANKS_URL;
-      });
+      // GASが期待しやすい形式（x-www-form-urlencoded）で送る
+      const fd = new FormData(f);
+      const params = new URLSearchParams();
+      for (const [k, v] of fd.entries()) params.append(k, String(v));
+      const body = params.toString();
 
-      // 送信時処理
-      f.addEventListener("submit", () => {
-        // 念のため（ブラウザのrequiredで通常はここに来る前に止まる）
-        if (!f.checkValidity()) return;
+      // ページ遷移しても送信が生き残るように sendBeacon / keepalive を使う
+      let sent = false;
 
-        setMeta_();
-
-        // 二重送信防止
-        const btn = f.querySelector('button[type="submit"], input[type="submit"]');
-        if (btn) {
-          btn.disabled = true;
-          if (btn.tagName === "BUTTON") btn.textContent = "送信中...";
+      try {
+        if (navigator.sendBeacon) {
+          const blob = new Blob([body], {
+            type: "application/x-www-form-urlencoded;charset=UTF-8",
+          });
+          sent = navigator.sendBeacon(f.action, blob);
         }
+      } catch (_) {}
 
-        pendingRedirect = true;
+      if (!sent) {
+        // フォールバック（CORSレスポンスは読めなくてもOK）
+        fetch(f.action, {
+          method: "POST",
+          mode: "no-cors",
+          keepalive: true,
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded;charset=UTF-8",
+          },
+          body,
+        }).catch(() => {});
+      }
 
-        // 保険：iframeのloadが発火しない環境でも遷移できるようにする
-        setTimeout(() => {
-          if (pendingRedirect) {
-            pendingRedirect = false;
-            location.href = THANKS_URL;
-          }
-        }, 1500);
-      });
-    }
+      // ✅ すぐThanksへ（script.google.com画面を出さない）
+      location.href = THANKS_URL;
+    });
 
     // ===== ここから下は元の .reveal 処理（そのまま） =====
     const els = document.querySelectorAll(".reveal");
-    const io = new IntersectionObserver(
-      (entries) => {
-        for (const e of entries) {
-          if (e.isIntersecting) {
-            e.target.classList.add("is-in");
-            io.unobserve(e.target);
+    if (els.length) {
+      const io = new IntersectionObserver(
+        (entries) => {
+          for (const e of entries) {
+            if (e.isIntersecting) {
+              e.target.classList.add("is-in");
+              io.unobserve(e.target);
+            }
           }
-        }
-      },
-      { threshold: 0.12 }
-    );
-    els.forEach((el) => io.observe(el));
+        },
+        { threshold: 0.12 }
+      );
+      els.forEach((el) => io.observe(el));
+    }
   })();
 </script>
+
 
 </body>
 </html>
