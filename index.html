@@ -854,8 +854,16 @@
     }
 
     /* ====== FV 左本文：少し右寄りにする（FVだけに効かせる） ====== */
+    /* ✅ 共通では寄せない（スマホ含む） */
     .hero-copy{
-      padding-left: 12px; /* 12〜28pxあたりで微調整 */
+      padding-left: 0;
+    }
+
+    /* ✅ PCだけ右寄せ（今までの12pxをここへ） */
+    @media (min-width: 981px){
+      .hero-copy{
+        padding-left: 12px; /* 12〜28pxで微調整 */
+      }
     }
 
 
