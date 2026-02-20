@@ -800,52 +800,63 @@
 
     /* ====== FV右：キービジュアル（画像） ====== */
     .hero-visual{
-    border: none !important;
-    border-radius: var(--radius2);
-    background: rgba(255,255,255,.86);
-    background: transparent !important;
-    box-shadow: none !important;
-    padding: 0;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    min-height: 360px;
+      border: none !important;
+      border-radius: var(--radius2);
+      background: rgba(255,255,255,.86);
+      background: transparent !important;
+      box-shadow: none !important;
+      padding: 0;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height: 360px;
     }
+
+    /* ✅ 共通ではズラさない（スマホ含む） */
     .hero-visual picture{
-      transform: translate(-50px, -50px);
+      transform: none;
     }
+
+    /* ✅ PCのときだけズラす */
+    @media (min-width: 981px){
+      .hero-visual picture{
+        transform: translate(-50px, -50px);
+      }
+    }
+
     .hero-visual img{
-    width:100%;
-    max-width: 420px;
-    height:auto;
-    display:block;
+      width:100%;
+      max-width: 420px;
+      height:auto;
+      display:block;
     }
 
     /* ====== 実績ブロック：次セクションへ移動して中央寄せ ====== */
     .metrics-card{
-    max-width: 980px;
-    margin: 0 auto;
-    text-align:center;
+      max-width: 980px;
+      margin: 0 auto;
+      text-align:center;
     }
     .metrics-card .platforms{
-    margin-top:18px;
-    text-align:left; /* 中身は読みやすく左寄せ、ブロック自体は中央配置 */
+      margin-top:18px;
+      text-align:left; /* 中身は読みやすく左寄せ、ブロック自体は中央配置 */
     }
     .metrics-card .event{
-    text-align:left;
+      text-align:left;
     }
 
     @media (max-width: 980px){
-    .hero-visual{ min-height: 0; }
-    .hero-visual img{ max-width: 520px; }
-    .metrics-card .platforms,
-    .metrics-card .event{ text-align:left; }
+      .hero-visual{ min-height: 0; }
+      .hero-visual img{ max-width: 520px; }
+      .metrics-card .platforms,
+      .metrics-card .event{ text-align:left; }
     }
 
     /* ====== FV 左本文：少し右寄りにする（FVだけに効かせる） ====== */
     .hero-copy{
       padding-left: 12px; /* 12〜28pxあたりで微調整 */
     }
+
 
      /* ====== スクロールバーを「必ず」表示（Edge/Win11） ======
        目的：
